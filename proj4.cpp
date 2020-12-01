@@ -12,14 +12,37 @@ using std::cin;
 using std::endl;
 using std::string;
 using std::vector;
+using std::min;
 
+string input;
 string caseOnePal;
 string caseTwoPal;
 string caseThreePal;
-string caseFourPal;
+//string caseFourPal;
+string finalPal;
 
 //checks to see if it's a palindrome
 void caseOne(string input) {
+    bool isPal = false;
+    if(input.length() == 1) {
+        isPal = true;
+    }
+    if (input.length() == 2) {
+        if(input.at(0) == input.at(1)) {
+            isPal = true;
+        } else {
+            isPal = false;
+        }
+    }
+    int index = input.length()-1;
+    if(input.length() > 2 && input.at(0) == input.at(index)) {
+        isPal = caseOne(input.substr(1,(index-1)));
+    }
+    if(isPal == true) {
+        caseOnePal = input;
+    }
+    
+    /*
     int length = input.length();
     unsigned int size = length - 1;
     bool isPal = false;
@@ -32,6 +55,7 @@ void caseOne(string input) {
     if(isPal == true) {
         caseOnePal = input;
     }
+    */
 }
 
 void caseTwo(string input) {
@@ -59,8 +83,6 @@ void caseTwo(string input) {
     string special = input.substr(temp[temp.at(0)], length-temp[temp.size()-1]);
     reverse(special.begin(), special.end());
     caseTwoPal = input+special;
-
-
     /*
     cout << string(input.rbegin(), input.rend()) + input;
     return string(input.rbegin(), input.rend()) + input;
@@ -99,38 +121,73 @@ void caseThree(string input) {
     */
 }
 
+/* instructions say to ignore this case
+void caseFour(string input) {
 
-/*
-string palindrome(string input) {
-
-    //case 1
-
-    //case 2
-    caseTwo(input);
-    //case 3
-
-    //case 4
-    return palindromeFinal;
 }
 */
-int main(int argc, char* argv[]) {
 
-    string input;
+//formula in box
+// p(i + 1, j − 1) + 2  if S[i] = S[j]
+// min {p(i + 1, j) + 2, p(i, j − 1) + 2}  if S[i] =\= S[j]
+int boxFormTwo(int i, int j) {
+    //i = 0;
+    //j = input.length()-1;
+    string palSection = caseTwoPal.find(input);
+    reverse(palSection.begin(), palSection.end());
+    if(caseTwoPal.at(i) == caseTwoPal.at(j)) {
+        return boxFormTwo(i+1,j-1)+2;
+    } else if (caseTwoPal.at(i) != caseTwoPal.at(j)) {
+        return min(boxFormTwo(i+1,j)+2, boxFormTwo(i,j-1)+2);
+    }
+}
+
+//formula in box
+// p(i + 1, j − 1) + 2  if S[i] = S[j]
+// min {p(i + 1, j) + 2, p(i, j − 1) + 2}  if S[i] =\= S[j]
+int boxFormThree(int i, int j) {
+    //i = 0;
+    //j = input.length()-1;
+    string palSection = caseThreePal.find(input);
+    reverse(palSection.begin(), palSection.end());
+    if(caseThreePal.at(i) == caseThreePal.at(j)) {
+        return boxFormThree(i+1,j-1)+2;
+    } else if (caseThreePal.at(i) != caseThreePal.at(j)) {
+        return min(boxFormThree(i+1,j)+2, boxFormThree(i,j-1)+2);
+    }
+}
+
+void palindrome() {
+    //if case one produces the best palindrome it is the smallest (from assignment notes)
+    if (caseOnePal.length() < caseTwoPal.length() && caseOnePal.length() < caseThreePal.length()) {
+        finalPal = caseOnePal;
+    }
+    int i = 0;
+    int j = input.length()-1;
+    if (boxFormTwo(i,j) < boxThreeForm(i,j)) {
+        //case2 pal is smallest
+        finalPal = caseTwoPal;
+    } elseif (boxFormTwo(i,j) >= boxThreeForm(i,j)) {
+        //case3 pal is smallest, I just put the case2 and case3 are equal case here
+        finalPal = caseThreePal;
+    }
+}
+
+
+
+int main(int argc, char* argv[]) {
+    //string input;
     cin >> input;
-//    caseOne(input);
+    caseOne(input);
 //    cout << "1" << caseOnePal;
-    cout << endl;
+//    cout << endl;
     caseTwo(input);
-    cout << "2" << caseTwoPal;
-    cout << endl;
+//    cout << "2" << caseTwoPal;
+//    cout << endl;
     caseThree(input);
-    cout << "3" << caseThreePal;
-    /*
-    cout << palindromeFinal.size() << " ";
-    palindrome(input);
-    cout << endl;
-    palindromeFinal.clear();
-    */
+//    cout << "3" << caseThreePal;
+    palindrome();
+    cout << finalPal.length() << " " << finalPal << endl;
 
     if (!cin.good()) {
         return 0;
