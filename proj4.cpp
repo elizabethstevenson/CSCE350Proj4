@@ -23,6 +23,20 @@ string finalPal;
 
 //checks to see if it's a palindrome
 void caseOne(string input) {
+
+    int index = 0;
+    int length = input.length()-1;
+    while(length > index) {
+        if(input.at(index) != input.at(length)) {
+            //input not a palindrome
+            index++;
+            length--;
+            return;
+        }
+    }
+    //input is palindrome
+    caseOnePal = input;
+    /*
     bool isPal = false;
     if(input.length() == 1) {
         isPal = true;
@@ -41,7 +55,7 @@ void caseOne(string input) {
     if(isPal == true) {
         caseOnePal = input;
     }
-    
+    */
     /*
     int length = input.length();
     unsigned int size = length - 1;
@@ -133,12 +147,14 @@ void caseFour(string input) {
 int boxFormTwo(int i, int j) {
     //i = 0;
     //j = input.length()-1;
-    string palSection = caseTwoPal.find(input);
-    reverse(palSection.begin(), palSection.end());
+    //string palSection = caseTwoPal.find(input);
+    //reverse(palSection.begin(), palSection.end());
     if(caseTwoPal.at(i) == caseTwoPal.at(j)) {
-        return boxFormTwo(i+1,j-1)+2;
+        //return boxFormTwo(i+1,j-1)+2;
+        return caseTwoPal.length();
     } else if (caseTwoPal.at(i) != caseTwoPal.at(j)) {
-        return min(boxFormTwo(i+1,j)+2, boxFormTwo(i,j-1)+2);
+        //return min(boxFormTwo(i+1,j)+2, boxFormTwo(i,j-1)+2);
+        return caseTwoPal.length();
     }
 }
 
@@ -148,12 +164,15 @@ int boxFormTwo(int i, int j) {
 int boxFormThree(int i, int j) {
     //i = 0;
     //j = input.length()-1;
-    string palSection = caseThreePal.find(input);
-    reverse(palSection.begin(), palSection.end());
+    //string palSection = caseThreePal.find(input);
+    //reverse(palSection.begin(), palSection.end());
+    //if(caseThreePal.at(i).compare(caseThreePal.at(j)) == 0) {
     if(caseThreePal.at(i) == caseThreePal.at(j)) {
-        return boxFormThree(i+1,j-1)+2;
+        //return boxFormThree(i+1,j-1)+2;
+        return caseThreePal.length();
     } else if (caseThreePal.at(i) != caseThreePal.at(j)) {
-        return min(boxFormThree(i+1,j)+2, boxFormThree(i,j-1)+2);
+        //return min(boxFormThree(i+1,j)+2, boxFormThree(i,j-1)+2);
+        return caseThreePal.length();
     }
 }
 
@@ -164,10 +183,10 @@ void palindrome() {
     }
     int i = 0;
     int j = input.length()-1;
-    if (boxFormTwo(i,j) < boxThreeForm(i,j)) {
+    if (boxFormTwo(i,j) < boxFormThree(i,j)) {
         //case2 pal is smallest
         finalPal = caseTwoPal;
-    } elseif (boxFormTwo(i,j) >= boxThreeForm(i,j)) {
+    } else if (boxFormTwo(i,j) >= boxFormThree(i,j)) {
         //case3 pal is smallest, I just put the case2 and case3 are equal case here
         finalPal = caseThreePal;
     }
