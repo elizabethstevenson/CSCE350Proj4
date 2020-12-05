@@ -14,6 +14,8 @@ using std::string;
 using std::vector;
 using std::min;
 
+//I tried my hardest with this project but I need to study for the final
+
 //variables to hold all the palindromes and input
 string input;
 string caseOnePal;
@@ -146,7 +148,7 @@ void caseFour(string input) {
 */
 
 
-//the actual dynamic programming part
+//the actual dynamic programming part with the DP table
 //formula in box
 // p(i + 1, j − 1) + 2  if S[i] = S[j]
 // min {p(i + 1, j) + 2, p(i, j − 1) + 2}  if S[i] =\= S[j]
@@ -166,6 +168,7 @@ int boxFormTwo(int i, int j) {
     return num;
 }
 
+//the actual dynamic programming part with the DP table
 //formula in box
 // p(i + 1, j − 1) + 2  if S[i] = S[j]
 // min {p(i + 1, j) + 2, p(i, j − 1) + 2}  if S[i] =\= S[j]
@@ -193,6 +196,7 @@ void palindrome() {
     }
     int i = 0;
     int j = input.length()-1;
+    //compares the values in the DP tables
     if (boxFormTwo(i,j) < boxFormThree(i,j)) {
         //case2 pal is smallest
         finalPal = caseTwoPal;
