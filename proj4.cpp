@@ -14,7 +14,7 @@ using std::string;
 using std::vector;
 using std::min;
 
-//I tried my hardest with this project but I need to study for the final
+//I tried my hardest with this project but I need prioritize my time and study for the final
 
 //variables to hold all the palindromes and input
 string input;
@@ -76,6 +76,15 @@ void caseOne(string input) {
     */
 }
 
+string capitalize(string input) {
+    for(unsigned int i = 0; i <= input.length(); ++i) {
+        if(input.at(i) >= 97 && input.at(i) <= 122) {
+            input.at(i) = input.at(i)-32;
+        }
+    }
+    return input;
+}
+
 void caseTwo(string input) {
     int length = input.size();
     string string1 = input;
@@ -101,7 +110,8 @@ void caseTwo(string input) {
     }
     string special = input.substr(temp[temp.at(0)], length-temp[temp.size()-1]);
     reverse(special.begin(), special.end());
-    caseTwoPal = input+special;
+    string capSpecial = capitalize(special);
+    caseTwoPal = input+capSpecial;
     /*
     cout << string(input.rbegin(), input.rend()) + input;
     return string(input.rbegin(), input.rend()) + input;
@@ -133,7 +143,8 @@ void caseThree(string input) {
     }
     string special = input.substr(temp[temp.size()-1], length-temp[temp.size()-1]);
     reverse(special.begin(), special.end());
-    caseThreePal = special+input;
+    string capSpecial = capitalize(special);
+    caseThreePal = capSpecial+input;
 
 /*
     cout << input + string(input.rbegin(), input.rend());
